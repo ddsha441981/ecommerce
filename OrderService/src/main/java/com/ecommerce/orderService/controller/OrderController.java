@@ -26,7 +26,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<OrderResponse> getOrderById (@PathVariable Long orderId){
+    public ResponseEntity<OrderResponse> getOrderById (@PathVariable int orderId){
         Optional<OrderResponse> orderById = orderServiceImpl.getOrderById(orderId);
         return orderById
                 .map(orderResponse -> ResponseEntity.ok().body(orderResponse))
@@ -40,15 +40,23 @@ public class OrderController {
     }
 
     @PutMapping("/{orderId}")
-    public ResponseEntity<Orders> updateOrder(@PathVariable Long orderId,
+    public ResponseEntity<Orders> updateOrder(@PathVariable int orderId,
                                               @RequestBody OrderRequest updatedorderRequest){
         Orders updatedOrder=orderServiceImpl.updateOrder(orderId,updatedorderRequest);
         return ResponseEntity.ok(updatedOrder);
     }
 
-    public ResponseEntity<OrderResponse> deleteOrder(@PathVariable Long orderId){
+    public ResponseEntity<OrderResponse> deleteOrder(@PathVariable int orderId){
         orderServiceImpl.deleteOrder(orderId);
         return ResponseEntity.noContent().build();
+    }
+
+
+
+    @PostMapping("/placeOrder")
+    public ResponseEntity<Orders> placeOrder (@RequestBody OrderRequest orderRequest){
+        Orders placeOrder= orderServiceImpl.placeOrder(orderRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(placeOrder);
     }
 }
 

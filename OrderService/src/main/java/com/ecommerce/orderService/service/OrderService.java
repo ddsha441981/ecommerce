@@ -9,9 +9,11 @@ import java.util.Optional;
 
 public interface OrderService {
     OrderResponse createOrder(OrderRequest orderRequest);
-    Orders updateOrder(Long orderId, OrderRequest updatedOrderRequest);
-    Optional<OrderResponse> getOrderById(Long orderId);
+    Orders updateOrder(int orderId, OrderRequest updatedOrderRequest);
+    Optional<OrderResponse> getOrderById(int orderId);
     List<OrderResponse> getAllOrders();
-    void deleteOrder(Long orderId);
+    void deleteOrder(int orderId);
+
+    public Orders placeOrder(OrderRequest orderRequest);
 
 }

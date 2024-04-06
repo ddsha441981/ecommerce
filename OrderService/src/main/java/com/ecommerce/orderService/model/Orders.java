@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -16,12 +17,15 @@ public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
-    private Long userId;
+    private int orderId;
+    private int userId;
     private String orderDate;
-//    private List<Long> productIds;
     private double totalAmount;
     @Enumerated(EnumType.STRING)
     private ChangeStatus status;
+
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
+    private List<OrderItem> items = new ArrayList<>();
+
 
 }

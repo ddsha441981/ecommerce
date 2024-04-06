@@ -1,9 +1,15 @@
 package com.ecommerce.orderService.payload;
 
 import com.ecommerce.orderService.model.ChangeStatus;
+import com.ecommerce.orderService.model.OrderItem;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -13,10 +19,10 @@ import java.util.List;
 @Setter
 @Builder
 public class OrderRequest {
-    private long orderId;
-    private long userId;
+    private int orderId;
+    private int userId;
     private String orderDate;
-//    private List<Long> productIds;
     private double totalAmount;
     private ChangeStatus status;
+    private List<OrderItem> items;
 }
