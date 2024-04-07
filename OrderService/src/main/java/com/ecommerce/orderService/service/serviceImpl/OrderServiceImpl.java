@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -102,9 +104,19 @@ public class OrderServiceImpl  implements OrderService {
         User[] users = user.getBody();
         log.info("user response: " + users);
         //call product service
-        ResponseEntity<Product[]> products = restTemplate.getForEntity(productUrl + "/" + userId, Product[].class, orderRequest.getItems());
-        Product[] product = products.getBody();
-        log.info("Product response: " + product);
+       // ResponseEntity<List<Product[]>> products = restTemplate.getForEntity(productUrl + "/" + userId, Product[].class, orderRequest.getItems());
+
+        ResponseEntity<List<Product[]>> productsResponse = restTemplate.exchange(
+                productUrl + "/" + userId,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Product[]>>() {}
+        );
+
+        List<Product[]> products = productsResponse.getBody();
+
+//        Product[] product = products.getBody();
+        log.info("Product response: " + productsResponse);
 
         Orders order = Orders.builder()
                 .userId(orderRequest.getUserId())
@@ -113,8 +125,7 @@ public class OrderServiceImpl  implements OrderService {
                 .totalAmount(orderRequest.getTotalAmount())
                 .status(ChangeStatus.PENDING)
                 .build();
-
-
+        this.orderRepository.save(order);
         return order;
 
     }

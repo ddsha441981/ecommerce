@@ -1,11 +1,11 @@
 package com.ecommerce.productservice.controller;
 
 import com.ecommerce.productservice.config.AppConstant;
+import com.ecommerce.productservice.model.AddProductsRequest;
 import com.ecommerce.productservice.payload.ProductRequest;
 import com.ecommerce.productservice.payload.ProductResponce;
 import com.ecommerce.productservice.payload.ProductResponsePagination;
 import com.ecommerce.productservice.service.ProductService;
-import com.ecommerce.productservice.service.impl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,12 @@ public class ProductController {
     public ResponseEntity<ProductResponce> createProduct (@RequestBody ProductRequest productRequest){
     ProductResponce createdProduct = productService.createProduct(productRequest);
     return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+    }
+
+    @PostMapping("/listProducts")
+    public ResponseEntity<AddProductsRequest> createProduct (@RequestBody AddProductsRequest list){
+        AddProductsRequest products = productService.addProducts(list);
+        return ResponseEntity.status(HttpStatus.CREATED).body(products);
     }
 
     @GetMapping("/{productId}")

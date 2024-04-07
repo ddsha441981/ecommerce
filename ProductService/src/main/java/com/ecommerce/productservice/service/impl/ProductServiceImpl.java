@@ -1,5 +1,6 @@
 package com.ecommerce.productservice.service.impl;
 
+import com.ecommerce.productservice.model.AddProductsRequest;
 import com.ecommerce.productservice.model.Product;
 import com.ecommerce.productservice.model.ProductAvailablity;
 import com.ecommerce.productservice.payload.ProductRequest;
@@ -35,6 +36,20 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products= productRepository.findAll();
         return products.stream().map(this::fromProduct) .collect(Collectors.toList());
     }
+
+    @Override
+    public AddProductsRequest addProducts(AddProductsRequest productRequestList) {
+
+        for (Product product : productRequestList.getProducts()) {
+            // Set the user ID for each product
+            product.setUserId(productRequestList.getUserId());
+            product.setProductAvailablity(ProductAvailablity.COMING_SOON);
+            // Save the product to the database
+            productRepository.save(product);
+        }
+        return productRequestList;
+    }
+
 
 
     @Override

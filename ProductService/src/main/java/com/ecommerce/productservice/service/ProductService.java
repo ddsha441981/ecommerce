@@ -1,6 +1,6 @@
 package com.ecommerce.productservice.service;
 
-import com.ecommerce.productservice.model.Product;
+import com.ecommerce.productservice.model.AddProductsRequest;
 import com.ecommerce.productservice.payload.ProductRequest;
 import com.ecommerce.productservice.payload.ProductResponce;
 import com.ecommerce.productservice.payload.ProductResponsePagination;
@@ -11,6 +11,9 @@ import java.util.Optional;
 public interface ProductService {
 
     public List<ProductResponce> getAllProducts();
+
+    //add list products
+    public AddProductsRequest addProducts(AddProductsRequest productRequestList);
     public Optional<ProductResponce> getProductById(int productId);
     public ProductResponce createProduct(ProductRequest productRequest);
     public ProductResponce UpdateProduct(int productId, ProductRequest updateProductRequest );
